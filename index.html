@@ -649,12 +649,12 @@ Weg des Arbeitsvertrags">۲-۳. اقامت یکساله قابل تمدید و �
       </div>
       <div class="acc-body">
         <div class="acc-body-inner">
-          <div class="price-line"><span class="price-line-label editable">A1</span><span class="price-line-val public-price editable" data-amd="30000" data-suffix=" / جلسه">…</span></div>
-          <div class="price-line"><span class="price-line-label editable">A2</span><span class="price-line-val public-price editable" data-amd="36000" data-suffix=" / جلسه">…</span></div>
-          <div class="price-line"><span class="price-line-label editable">B1</span><span class="price-line-val public-price editable" data-amd="44000" data-suffix=" / جلسه">…</span></div>
-          <div class="price-line"><span class="price-line-label editable">B2</span><span class="price-line-val public-price editable" data-amd="44000" data-suffix=" / جلسه">…</span></div>
-          <div class="price-line"><span class="price-line-label editable">C1</span><span class="price-line-val public-price editable" data-amd="56000" data-suffix=" / جلسه">…</span></div>
-          <div class="price-line"><span class="price-line-label editable">C2</span><span class="price-line-val public-price editable" data-amd="56000" data-suffix=" / جلسه">…</span></div>
+          <div class="price-line"><span class="price-line-label editable">A1</span><span class="price-line-val public-price editable" data-amd="30000" data-suffix=" / جلسه" data-step="5">…</span></div>
+          <div class="price-line"><span class="price-line-label editable">A2</span><span class="price-line-val public-price editable" data-amd="36000" data-suffix=" / جلسه" data-step="5">…</span></div>
+          <div class="price-line"><span class="price-line-label editable">B1</span><span class="price-line-val public-price editable" data-amd="44000" data-suffix=" / جلسه" data-step="5">…</span></div>
+          <div class="price-line"><span class="price-line-label editable">B2</span><span class="price-line-val public-price editable" data-amd="44000" data-suffix=" / جلسه" data-step="5">…</span></div>
+          <div class="price-line"><span class="price-line-label editable">C1</span><span class="price-line-val public-price editable" data-amd="56000" data-suffix=" / جلسه" data-step="5">…</span></div>
+          <div class="price-line"><span class="price-line-label editable">C2</span><span class="price-line-val public-price editable" data-amd="56000" data-suffix=" / جلسه" data-step="5">…</span></div>
         </div>
       </div>
     </div>
@@ -943,23 +943,45 @@ Weg des Arbeitsvertrags">۲-۳. اقامت یکساله قابل تمدید و �
 
   /* ================= Euro price conversion =================
      All prices are kept internally as AMD (data-amd attribute, the source of
-     truth), but DISPLAYED to everyone as an approximate Euro figure:
-       1 EUR = 410 AMD (EUR_RATE)
-       displayed euro value = ceil(realEuro / 50) * 50   (rounded UP to the next 50)
-       shown with a leading "≈" (approximate) sign, e.g. "≈450 €"
-     If the admin edits a price field, the number they type is treated as the
-     new EURO amount and is back-converted into data-amd so subtotals / the
-     residency price range keep working correctly. */
+     truth). There are two kinds of price fields:
+       - .admin-price  → internal itemized costs, only ever visible to the
+         logged-in admin (hidden from the public via CSS). These are shown
+         and edited directly in AMD (Armenian Dram), no conversion.
+       - .public-price → figures shown to every visitor, always converted
+         to an approximate Euro amount:
+           1 EUR = 410 AMD (EUR_RATE)
+           displayed value = ceil(realEuro / step) * step  (rounded UP)
+           step defaults to 50, but can be overridden per element with
+           data-step="5" (used for the German course prices), shown with a
+           leading "≈" sign, e.g. "≈450 €" or "≈75 €"
+     The one-year residency price range shown to visitors (updateResidencyRange)
+     always sums admin-price (AMD) line items per package and rounds the
+     Euro result UP to the nearest 50, regardless of any per-item step. */
   var EUR_RATE = 410;
 
-  function euroCeil50(amd) {
+  function euroCeilStep(amd, step) {
     var real = amd / EUR_RATE;
-    return Math.ceil(real / 50) * 50;
+    var s = step || 50;
+    return Math.ceil(real / s) * s;
   }
 
-  function formatEuro(amd, plus, suffix) {
-    var val = euroCeil50(amd);
+  // Backward-compatible alias (always steps of 50) used for sub-totals / residency range
+  function euroCeil50(amd) {
+    return euroCeilStep(amd, 50);
+  }
+
+  function formatEuro(amd, plus, suffix, step) {
+    var val = euroCeilStep(amd, step || 50);
     return '≈' + val.toLocaleString('en-US') + ' €' + (plus ? '+' : '') + (suffix || '');
+  }
+
+  // Admin-only itemized costs are shown as the raw AMD (Armenian Dram) figure,
+  // never converted to Euro, since these lines are only ever visible to the
+  // logged-in admin (hidden from public visitors via CSS).
+  function formatAmd(amd, plus, suffix) {
+    var n = parseInt(amd, 10);
+    if (isNaN(n)) return '…';
+    return n.toLocaleString('en-US') + ' AMD' + (plus ? '+' : '') + (suffix || '');
   }
 
   /* ================= Itemized price totals (admin-only) & one-year residency range (shown to all) ================= */
@@ -1028,12 +1050,20 @@ Weg des Arbeitsvertrags">۲-۳. اقامت یکساله قابل تمدید و �
         return;
       }
 
-      // No saved edit: if this is a price field, render its initial Euro display
+      // No saved edit: render the initial display for this price field.
+      // Admin-only itemized costs (admin-price) show raw AMD, since these are
+      // internal breakdown lines never shown to public visitors.
+      // Prices shown to everyone (public-price) show the rounded Euro figure.
       if (isPrice) {
         var amd = parseInt(el.dataset.amd, 10);
         var plus = el.dataset.plus === '1';
         var suffix = el.dataset.suffix || '';
-        el.textContent = formatEuro(amd, plus, suffix);
+        if (el.classList.contains('admin-price')) {
+          el.textContent = formatAmd(amd, plus, suffix);
+        } else {
+          var step = parseInt(el.dataset.step, 10) || 50;
+          el.textContent = formatEuro(amd, plus, suffix, step);
+        }
       }
     });
   }
@@ -1058,8 +1088,12 @@ Weg des Arbeitsvertrags">۲-۳. اقامت یکساله قابل تمدید و �
     document.querySelectorAll('.editable').forEach(function (el) {
       el.addEventListener('input', function () {
         if (el.hasAttribute('data-fa')) el.setAttribute('data-' + currentLang, el.textContent);
-        if ((el.classList.contains('admin-price') || el.classList.contains('public-price')) && el.hasAttribute('data-amd')) {
-          // Admin types the new EURO amount; back-convert to AMD so subtotals/range stay correct
+        if (el.classList.contains('admin-price') && el.hasAttribute('data-amd')) {
+          // Internal itemized cost: admin types the raw AMD (Dram) amount directly, no conversion
+          var amdDigits = el.textContent.replace(/[^0-9]/g, '');
+          if (amdDigits) el.dataset.amd = String(parseInt(amdDigits, 10));
+        } else if (el.classList.contains('public-price') && el.hasAttribute('data-amd')) {
+          // Customer-facing price: admin types the new EURO amount; back-convert to AMD
           var digits = el.textContent.replace(/[^0-9]/g, '');
           if (digits) el.dataset.amd = String(parseInt(digits, 10) * EUR_RATE);
         }
