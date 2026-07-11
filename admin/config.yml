@@ -56,3 +56,18 @@ collections:
           - { label: "[انتقال به آلمان] همراهی در روز مصاحبه سفارت", name: "eu_interview_accompany", widget: "number", value_type: "int" }
           - { label: "[انتقال به آلمان] خدمات انتقالی (تهیه بلیط و...)", name: "eu_transfer_services", widget: "number", value_type: "int" }
           - { label: "[انتقال به آلمان] اخذ نوبت سفارت آلمان", name: "eu_embassy_appointment", widget: "number", value_type: "int" }
+
+  - name: "content"
+    label: "متن‌های سایت"
+    files:
+      - file: "data/content.json"
+        label: "ویرایش توضیحات پک‌ها و سوالات متداول"
+        name: "content"
+        fields:
+          - { label: "توضیح پک طلایی", name: "package_gold_text", widget: "text" }
+          - { label: "توضیح پک نقره‌ای", name: "package_silver_text", widget: "text" }
+          - { label: "توضیح پک برنزی", name: "package_bronze_text", widget: "text" }
+          - { label: "سوال متداول ۱ - پاسخ (اقامت یک‌ساله چطور می‌گیرم؟)", name: "faq_1_answer", widget: "text" }
+          - { label: "سوال متداول ۲ - پاسخ (زمان‌بندی)", name: "faq_2_answer", widget: "text" }
+          - { label: "سوال متداول ۳ - پاسخ (دوره‌های آلمانی)", name: "faq_3_answer", widget: "text" }
+          - { label: "سوال متداول ۴ - پاسخ (روش‌های انتقال به آلمان)", name: "faq_4_answer", widget: "text" }
