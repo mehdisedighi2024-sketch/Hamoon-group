@@ -71,3 +71,41 @@ collections:
           - { label: "سوال متداول ۲ - پاسخ (زمان‌بندی)", name: "faq_2_answer", widget: "text" }
           - { label: "سوال متداول ۳ - پاسخ (دوره‌های آلمانی)", name: "faq_3_answer", widget: "text" }
           - { label: "سوال متداول ۴ - پاسخ (روش‌های انتقال به آلمان)", name: "faq_4_answer", widget: "text" }
+
+  - name: "info"
+    label: "توضیحات دکمه‌های اطلاعات"
+    files:
+      - file: "data/info.json"
+        label: "ویرایش توضیح هر خدمت (دکمه اطلاعات)"
+        name: "info"
+        fields:
+          - { label: "توضیح: ترانسفر فرودگاهی", name: "info_entry_airport_transfer", widget: "text", required: false }
+          - { label: "توضیح: اجاره کوتاه‌مدت خانه (بجز هزینه اجاره)", name: "info_entry_shortterm_housing", widget: "text", required: false }
+          - { label: "توضیح: اجاره بلندمدت خانه (بجز هزینه اجاره)", name: "info_entry_longterm_housing", widget: "text", required: false }
+          - { label: "توضیح: تهیه سیم‌کارت و اینترنت (بجز هزینه سیم‌کارت)", name: "info_entry_sim_internet", widget: "text", required: false }
+          - { label: "توضیح: آموزش رفت‌وآمد و تهیه بلیط حمل‌ونقل شهری", name: "info_entry_transport_ticket", widget: "text", required: false }
+          - { label: "توضیح: تور یک‌روزه مراکز و اماکن کاربردی", name: "info_entry_oneday_tour", widget: "text", required: false }
+          - { label: "توضیح: معرفی کلاس آموزشی ارمنی", name: "info_entry_armenian_class", widget: "text", required: false }
+          - { label: "توضیح: [روش ثبت شرکت] ترجمه مدارک", name: "info_res_company_translation", widget: "text", required: false }
+          - { label: "توضیح: [روش ثبت شرکت] اخذ سوشال نامبر", name: "info_res_company_social_number", widget: "text", required: false }
+          - { label: "توضیح: [روش ثبت شرکت] خدمات قانونی ثبت شرکت", name: "info_res_company_legal_reg", widget: "text", required: false }
+          - { label: "توضیح: [روش ثبت شرکت] فعال‌سازی شرکت (نیروی کار و حسابدار ارمنی)", name: "info_res_company_activation", widget: "text", required: false }
+          - { label: "توضیح: [روش ثبت شرکت] تهیه لوگو و مهر", name: "info_res_company_logo_stamp", widget: "text", required: false }
+          - { label: "توضیح: [روش ثبت شرکت] اخذ اقامت یک‌ساله", name: "info_res_company_residency_fee", widget: "text", required: false }
+          - { label: "توضیح: [روش دوره دانشگاهی] ترجمه مدارک", name: "info_res_university_translation", widget: "text", required: false }
+          - { label: "توضیح: [روش دوره دانشگاهی] اخذ سوشال نامبر", name: "info_res_university_social_number", widget: "text", required: false }
+          - { label: "توضیح: [روش دوره دانشگاهی] مشاوره انتخاب دوره", name: "info_res_university_course_consult", widget: "text", required: false }
+          - { label: "توضیح: [روش دوره دانشگاهی] ثبت‌نام در دوره زبان (بجز هزینه دوره)", name: "info_res_university_course_enroll", widget: "text", required: false }
+          - { label: "توضیح: [روش دوره دانشگاهی] اخذ اقامت یک‌ساله", name: "info_res_university_residency_fee", widget: "text", required: false }
+          - { label: "توضیح: [روش قرارداد کاری] ترجمه مدارک (۲ مرتبه)", name: "info_res_work_translation", widget: "text", required: false }
+          - { label: "توضیح: [روش قرارداد کاری] اخذ سوشال نامبر", name: "info_res_work_social_number", widget: "text", required: false }
+          - { label: "توضیح: [روش قرارداد کاری] اخذ قرارداد کاری (پرداخت حقوق توسط شخص)", name: "info_res_work_contract", widget: "text", required: false }
+          - { label: "توضیح: [روش قرارداد کاری] اخذ اقامت یک‌ساله", name: "info_res_work_residency_fee", widget: "text", required: false }
+          - { label: "توضیح: [انتقال به آلمان] ترجمه مدارک (هر پک)", name: "info_eu_doc_translation", widget: "text", required: false }
+          - { label: "توضیح: [انتقال به آلمان] لگال مدارک در سفارت (هر پک، بجز هزینه سفارت)", name: "info_eu_doc_legalization", widget: "text", required: false }
+          - { label: "توضیح: [انتقال به آلمان] تهیه رزومه", name: "info_eu_resume", widget: "text", required: false }
+          - { label: "توضیح: [انتقال به آلمان] تهیه انگیزه‌نامه", name: "info_eu_motivation_letter", widget: "text", required: false }
+          - { label: "توضیح: [انتقال به آلمان] مشاوره مصاحبه سفارت", name: "info_eu_interview_consult", widget: "text", required: false }
+          - { label: "توضیح: [انتقال به آلمان] همراهی در روز مصاحبه سفارت", name: "info_eu_interview_accompany", widget: "text", required: false }
+          - { label: "توضیح: [انتقال به آلمان] خدمات انتقالی (تهیه بلیط و...)", name: "info_eu_transfer_services", widget: "text", required: false }
+          - { label: "توضیح: [انتقال به آلمان] اخذ نوبت سفارت آلمان", name: "info_eu_embassy_appointment", widget: "text", required: false }
